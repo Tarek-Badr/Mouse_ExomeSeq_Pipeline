@@ -15,7 +15,11 @@ All analysis is carried out on Ubuntu Linux 16.04.
 The workflow is organized in the following manner:
 
 1- Requiered software installation
+
 2- Preparation of required refrence genomes and germline resources
+
 3- Data processing up until analysis ready bams
+
 4- Variant Calling using Mutec2 and varscan somatic
+
 5- Genetic variants annotation and data filtering 

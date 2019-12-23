@@ -1,0 +1,63 @@
+#!/bin/bash
+
+sampleID=$1
+mkdir --parents scratchtarek${sampleID}
+mkdir --parents scratchtarek${sampleID}tmp
+tmpdir=scratchtarek${sampleID}tmp
+GATK= /home/tarek/Desktop/wxs/Tools/gatk-4.0.12.0/gatk 
+picard=java -Xmx30g -jar /home/tarek/Desktop/wxs/Tools/picard.jar
+bwaIndex=/home/tarek/Desktop/wxs/Tools/bwa-0.7.17/bwamm10index/mm10bwaidx
+mm10=/home/tarek/Desktop/wxs/Tools/bwa-0.7.17/bwamm10index/mm10bwaidx.fa
+bedfile=/home/tarek/Desktop/wxs/ex_region.sort.bed
+indelMills=/home/tarek/Desktop/wxs/Tools/mm10.indel.vcf
+dbsnp=/home/tarek/Desktop/wxs/Tools/mm10.snps.vcf
+
+
+#creating mileup files for varscan using samtool
+#make pileup files from recalled BAM
+
+~/Desktop/wxs/Tools/samtools-1.9/samtools mpileup -B -q 1 -l /home/tarek/Desktop/wxs/ex_region.sort.bed -f /home/tarek/Desktop/wxs/Tools/bwa-0.7.17/bwamm10index/mm10bwaidx.fa /home/tarek/Desktop/wxs/Tools/AA-18-25-NM.recal.bam  >A-18-25-NM.pileup  
+
+
+
+
+#run varscan somatic on pileup files
+
+java -Xmx30g -jar /home/tarek/Desktop/wxs/Tools/VarScan.v2.3.9.jar somatic A-18-25-NM.pileup A-18-25-T.pileup A-18-25-T-varscan --min-coverage 10 --min-var-freq 0.08 --p-value 0.10 --somatic-p-value 0.05 --strand-filter 0 --output-vcf 1
+
+java -Xmx30g -jar /home/tarek/Desktop/wxs/Tools/VarScan.v2.3.9.jar processSomatic A-18-25-T-varscan.snp
+java -Xmx30g -jar /home/tarek/Desktop/wxs/Tools/VarScan.v2.3.9.jar processSomatic A-18-25-T-varscan.indel.vcf
+
+java -Xmx30g -jar /home/tarek/Desktop/wxs/Tools/VarScan.v2.3.9.jar somatic A-18-25-NM.pileup A-18-23-T.pileup A-18-23-T-varscan --min-coverage 10 --min-var-freq 0.08 --p-value 0.10 --somatic-p-value 0.05 --strand-filter 0 --output-vcf 1
+
+java -Xmx30g -jar /home/tarek/Desktop/wxs/Tools/VarScan.v2.3.9.jar somatic A-18-25-NM.pileup A-18-24-T.pileup A-18-24-T-varscan --min-coverage 10 --min-var-freq 0.08 --p-value 0.10 --somatic-p-value 0.05 --strand-filter 0 --output-vcf 1
+
+java -Xmx30g -jar /home/tarek/Desktop/wxs/Tools/VarScan.v2.3.9.jar somatic A-18-29-NM.pileup A-18-29-T.pileup A-18-29-T-varscan --min-coverage 10 --min-var-freq 0.08 --p-value 0.10 --somatic-p-value 0.05 --strand-filter 0 --output-vcf 1
+
+java -Xmx30g -jar /home/tarek/Desktop/wxs/Tools/VarScan.v2.3.9.jar processSomatic A-18-29-T-varscan.snp
+java -Xmx30g -jar /home/tarek/Desktop/wxs/Tools/VarScan.v2.3.9.jar processSomatic A-18-29-T-varscan.indel
+
+# calling the variants using MUtec2
+17
+#the script for generating the mouse af only germline resource can be found in this folder in the script create_wdl.pl
+18
+​
+19
+${GATK} Mutect2 \
+20
+-R ${mm10} \
+21
+-I {sample}.recal.bam -tumor {sample} \
+22
+-I {sample}.recal.bam -normal {sample} \
+23
+-pon mwxs_pon.vcf \
+24
+--germline-resource mm10.v6.afonlygnomad.PASS.vcf \
+25
+-L ${bedfile} \
+26
+-O {sample}.vcf \ 
+27
+-bamout {sample}.Mutec2.bam
+28

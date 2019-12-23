@@ -15,7 +15,7 @@ bedfile="/home/tarek/Desktop/wxs/ex_region.sort.bed"
 ${picard} SortSam \
 SO=coordinate \
 INPUT=${sampleID}.sam \
-OUTPUT=${sampleID}.bam 
+OUTPUT=${sampleID}.bam \
 VALIDATION_STRINGENCY=LENIENT \
 CREATE_INDEX=true
 

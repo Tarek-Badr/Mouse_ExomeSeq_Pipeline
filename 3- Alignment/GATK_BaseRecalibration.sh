@@ -1,7 +1,6 @@
 #!/bin/bash
 
 sampleID="AA-18-31-T"
-#sampleID=$1
 sample="/home/tarek/Desktop/wxs/Cleanseqs/${sampleID}"
 tmpdir="/home/tarek/Desktop/wxs/Tools/tmp"
 bwamem= "/home/tarek/Desktop/wxs/Tools/bwa-0.7.17/bwa mem"

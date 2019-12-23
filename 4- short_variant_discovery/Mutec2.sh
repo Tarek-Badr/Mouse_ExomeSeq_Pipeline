@@ -14,12 +14,14 @@ dbsnp=/home/tarek/Desktop/wxs/Tools/mm10.snps.vcf
 bwamem=/home/tarek/Desktop/wxs/Tools/bwa-0.7.17/bwa mem
 
 # calling the variants using MUtec2
+#the script for generating the mouse af only germline resource can be found in this folder in the script create_wdl.pl
 
 ${GATK} Mutect2 \
 -R ${mm10} \
 -I {sample}.recal.bam -tumor {sample} \
 -I {sample}.recal.bam -normal {sample} \
 -pon mwxs_pon.vcf \
+--germline-resource mm10.v6.afonlygnomad.PASS.vcf \
 -L ${bedfile} \
 -O {sample}.vcf \ 
 -bamout {sample}.Mutec2.bam

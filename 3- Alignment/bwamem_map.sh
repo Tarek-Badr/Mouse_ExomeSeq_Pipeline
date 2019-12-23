@@ -13,4 +13,11 @@ mm10="/home/tarek/Desktop/wxs/Tools/bwa-0.7.17/bwamm10index/mm10bwaidx.fa"
 bedfile="/home/tarek/Desktop/wxs/ex_region.sort.bed"
 
 
-${bwamem} -t 10 -M -R "@RG\tID:${sampleID}\tLB:NEXTERA\tPL:ILLUMINA\tSM:${sampleID}" ${bwaIndex} ${sample}_1.fq.gz ${sample}_2.fq.gz > ${sampleID}.sam
+${bwamem} \
+-t 10 \
+-M \
+-R "@RG\tID:${sampleID}\tLB:NEXTERA\tPL:ILLUMINA\tSM:${sampleID}" \ 
+${bwaIndex} \
+${sample}_1.fq.gz \ 
+${sample}_2.fq.gz > \
+${sampleID}.sam

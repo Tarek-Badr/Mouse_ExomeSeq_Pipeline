@@ -5,7 +5,7 @@ Platform: x86_64-pc-linux-gnu (64-bit)
 As the installation instructions differ according to the platform used i will link to each tool donwload documentation site and you can
 follow the instructions suitable to your system.
 
-# [Trimmomatic-0.39] (http://www.usadellab.org/cms/?page=trimmomatic)
+# [Trimmomatic-0.39](http://www.usadellab.org/cms/?page=trimmomatic)
 
 # bwa-0.7.17
 
